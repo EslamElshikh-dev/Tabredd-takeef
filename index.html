@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="ar" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="للتبريد والتكييف - خبراء تركيب وصيانة مكيفات الهواء، الثلاجات، والغسالات. خدمة سريعة وموثوقة بأسعار تنافسية في جميع المناطق.">
+    <meta name="keywords" content="صيانة مكيفات, تبريد وتكييف, تركيب مكيفات كاسيت, غسالات, ثلاجات, صيانة فورية, تكييف مخفي">
+    <meta property="og:title" content="للتبريد والتكييف | AC & Refrigeration">
+    <meta property="og:description" content="خدمات التبريد والتكييف والصيانة الشاملة بأعلى معايير الجودة.">
+    <meta property="og:image" content="https://i.ibb.co/Qvkq3L91/20260410-153659.png">
+    
+    <title class="ar">للتبريد والتكييف</title>
+    <title class="en" style="display:none;">AC & Refrigeration</title>
+    <title class="ur" style="display:none;">ایئر کنڈیشنگ اور ریفریجریشن</title>
+    
+    <link rel="icon" href="https://i.ibb.co/Qvkq3L91/20260410-153659.png" type="image/png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* المتغيرات الأساسية (الوضع النهاري) */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --primary-color: #00bfff; /* السماوي */
+            --primary-dark: #009acd;
+            --card-bg: #f8f9fa;
+            --header-bg: rgba(255, 255, 255, 0.85);
+            --border-color: #eeeeee;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --hover-shadow: 0 15px 35px rgba(0, 191, 255, 0.2);
+            --map-filter: none;
+        }
+
+        /* الوضع الليلي */
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #f1f1f1;
+            --primary-color: #33ccff;
+            --primary-dark: #00bfff;
+            --card-bg: #1e1e1e;
+            --header-bg: rgba(18, 18, 18, 0.85);
+            --border-color: #333333;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            --hover-shadow: 0 15px 35px rgba(51, 204, 255, 0.2);
+            --map-filter: invert(90%) hue-rotate(180deg);
+        }
+
+        /* الأساسيات */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; transition: background-color 0.3s, color 0.3s; }
+        body { background-color: var(--bg-color); color: var(--text-color); overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* التحكم باللغات والاتجاهات */
+        html[lang="ar"], html[lang="ur"] { direction: rtl; }
+        html[lang="en"] { direction: ltr; }
+
+        html[lang="ar"] .en, html[lang="ar"] .ur { display: none !important; }
+        html[lang="en"] .ar, html[lang="en"] .ur { display: none !important; }
+        html[lang="ur"] .ar, html[lang="ur"] .en { display: none !important; }
+
+        /* شاشة التحميل */
+        #loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-color); z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .loader-ring {
+            width: 120px; height: 120px; border-radius: 50%;
+            border: 5px solid transparent; border-top-color: var(--primary-color);
+            animation: spin 1s linear infinite; position: relative;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .loader-ring img {
+            width: 70px; height: 70px; border-radius: 50%;
+            animation: spin-reverse 1s linear infinite;
+        }
+        .loader-text { margin-top: 20px; font-size: 1.2rem; font-weight: bold; color: var(--primary-color); }
+        .dots::after { content: ''; animation: dots 1.5s steps(4, end) infinite; }
+
+        /* الهيدر */
+        header {
+            position: fixed; top: 0; width: 100%; padding: 15px 5%;
+            background: var(--header-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.5rem; color: var(--primary-color); }
+        .logo img { width: 40px; }
+        .header-actions { display: flex; gap: 15px; align-items: center; }
+        .action-btn { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 1.1rem; }
+        .action-btn:hover { background: var(--primary-color); color: white; }
+
+        /* القائمة الجانبية */
+        .sidebar {
+            position: fixed; top: 0; width: 280px; height: 100vh; background: var(--card-bg);
+            z-index: 1001; padding: 30px; box-shadow: var(--shadow); transition: 0.4s ease;
+        }
+        html[lang="ar"] .sidebar, html[lang="ur"] .sidebar { right: -300px; }
+        html[lang="ar"] .sidebar.active, html[lang="ur"] .sidebar.active { right: 0; }
+        html[lang="en"] .sidebar { left: -300px; }
+        html[lang="en"] .sidebar.active { left: 0; }
+        
+        .sidebar-close { font-size: 1.5rem; cursor: pointer; margin-bottom: 30px; display: block; color: var(--text-color); }
+        .sidebar ul li { margin-bottom: 20px; }
+        .sidebar ul li a { font-size: 1.2rem; font-weight: 500; display: block; padding: 10px; border-radius: 8px; }
+        .sidebar ul li a:hover { background: var(--primary-color); color: white; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: none; }
+
+        /* قسم البداية Hero */
+        .hero {
+            padding: 150px 5% 100px; text-align: center;
+            background: linear-gradient(135deg, var(--bg-color) 0%, var(--card-bg) 100%);
+        }
+        .hero h1 { font-size: 3rem; color: var(--primary-color); margin-bottom: 20px; }
+        .hero p { font-size: 1.2rem; max-width: 700px; margin: 0 auto 30px; line-height: 1.8; }
+        .btn-primary {
+            display: inline-block; padding: 12px 35px; background: var(--primary-color); color: white !important;
+            border-radius: 30px; font-weight: bold; font-size: 1.1rem; box-shadow: 0 5px 15px rgba(0, 191, 255, 0.4);
+        }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-3px); }
+
+        /* الأقسام العامة */
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 50px; color: var(--primary-color); }
+        section { padding: 80px 5%; }
+
+        /* لماذا نحن - المزايا */
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+        .feature-card {
+            background: var(--card-bg); padding: 30px 20px; border-radius: 20px; text-align: center;
+            box-shadow: var(--shadow); border: 1px solid var(--border-color); transition: 0.3s;
+        }
+        .feature-card:hover { transform: translateY(-10px); box-shadow: var(--hover-shadow); }
+        .feature-icon {
+            width: 80px; height: 80px; margin: 0 auto 20px; background: linear-gradient(145deg, var(--primary-color), var(--primary-dark));
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            font-size: 2rem; color: white; animation: floatIcon 3s ease-in-out infinite; box-shadow: 0 10px 20px rgba(0, 191, 255, 0.3);
+        }
+        .feature-card h3 { margin-bottom: 15px; font-size: 1.3rem; }
+        .feature-card p { font-size: 0.95rem; line-height: 1.6; opacity: 0.9; }
+
+        /* الخدمات */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .service-card {
+            background: var(--card-bg); border-radius: 20px; padding: 30px;
+            box-shadow: var(--shadow); border: 1px solid var(--border-color); transition: 0.3s;
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .service-card:hover { transform: translateY(-10px); border-color: var(--primary-color); }
+        .service-icon-3d {
+            width: 70px; height: 70px; background: var(--bg-color); border-radius: 50%;
+            display: flex; justify-content: center; align-items: center; font-size: 1.8rem; color: var(--primary-color);
+            box-shadow: inset 5px 5px 10px rgba(0,0,0,0.05), inset -5px -5px 10px rgba(255,255,255,0.5), 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        [data-theme="dark"] .service-icon-3d { box-shadow: inset 5px 5px 10px rgba(0,0,0,0.3), inset -5px -5px 10px rgba(255,255,255,0.05); }
+        .service-card h3 { font-size: 1.4rem; margin-bottom: 15px; }
+        .service-card p { font-size: 0.9rem; line-height: 1.8; margin-bottom: 25px; flex-grow: 1; }
+        .btn-order {
+            display: block; text-align: center; padding: 12px; background: var(--primary-color);
+            color: white !important; border-radius: 12px; font-weight: bold; transition: 0.3s;
+        }
+        .btn-order:hover { background: var(--primary-dark); }
+
+        /* تواصل معنا والخريطة */
+        .contact-container { position: relative; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow); }
+        .contact-container iframe { width: 100%; height: 450px; border: none; filter: var(--map-filter); }
+        .map-pin {
+            position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 3rem; color: var(--primary-color); text-shadow: 0 5px 10px rgba(0,0,0,0.3);
+            animation: bounce 2s infinite; pointer-events: none;
+        }
+        .contact-info {
+            position: absolute; bottom: 20px; right: 20px; background: var(--card-bg);
+            padding: 20px; border-radius: 15px; box-shadow: var(--shadow);
+            html[lang="en"] & { right: auto; left: 20px; }
+        }
+
+        /* الفوتر */
+        footer { background: var(--card-bg); padding: 40px 5% 100px; text-align: center; border-top: 1px solid var(--border-color); }
+        .designer-badge {
+            display: inline-block; margin-top: 20px; padding: 10px 20px; background: rgba(0, 191, 255, 0.1);
+            border: 1px solid var(--primary-color); border-radius: 30px; font-size: 0.9rem; font-weight: bold;
+            color: var(--primary-color); transition: 0.3s;
+        }
+        .designer-badge:hover { background: var(--primary-color); color: white; }
+
+        /* الأزرار العائمة */
+        .floating-actions { position: fixed; bottom: 90px; right: 20px; display: flex; flex-direction: column; gap: 15px; z-index: 999; }
+        html[lang="en"] .floating-actions { right: auto; left: 20px; }
+        .float-btn {
+            width: 55px; height: 55px; border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            font-size: 1.8rem; color: white; box-shadow: 0 5px 15px rgba(0,0,0,0.2); animation: pulse 2s infinite;
+        }
+        .float-wa { background: #25D366; }
+        .float-call { background: var(--primary-color); }
+
+        /* بار التنقل السفلي للموبايل */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg);
+            display: flex; justify-content: space-around; padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05); z-index: 1000; border-top: 1px solid var(--border-color);
+        }
+        .bottom-nav a { display: flex; flex-direction: column; align-items: center; font-size: 0.8rem; color: var(--text-color); gap: 5px; opacity: 0.7; }
+        .bottom-nav a.active, .bottom-nav a:hover { opacity: 1; color: var(--primary-color); }
+        .bottom-nav a i { font-size: 1.2rem; }
+        
+        @media (min-width: 769px) { .bottom-nav { display: none; } footer { padding-bottom: 40px; } .floating-actions{ bottom: 30px; } }
+
+        /* الرسوم المتحركة (Animations) */
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes spin-reverse { 0% { transform: rotate(360deg); } 100% { transform: rotate(0deg); } }
+        @keyframes dots { 0% { content: ''; } 25% { content: '.'; } 50% { content: '..'; } 75% { content: '...'; } }
+        @keyframes floatIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); } 40% { transform: translate(-50%, -20px); } 60% { transform: translate(-50%, -10px); } }
+        @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); } 70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
+        .float-call { animation: pulseCall 2s infinite; }
+        @keyframes pulseCall { 0% { box-shadow: 0 0 0 0 rgba(0, 191, 255, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(0, 191, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 191, 255, 0); } }
+
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <div class="loader-ring">
+            <img src="https://i.ibb.co/Qvkq3L91/20260410-153659.png" alt="Logo">
+        </div>
+        <div class="loader-text">
+            <span class="ar">جاري تجهيز الموقع<span class="dots"></span></span>
+            <span class="en">Loading Website<span class="dots"></span></span>
+            <span class="ur">ویب سائٹ لوڈ ہو رہی ہے<span class="dots"></span></span>
+        </div>
+    </div>
+
+    <header>
+        <div class="logo">
+            <img src="https://i.ibb.co/Qvkq3L91/20260410-153659.png" alt="Logo">
+            <span class="ar">للتبريد والتكييف</span>
+            <span class="en">AC & Cooling</span>
+            <span class="ur">کولنگ سروسز</span>
+        </div>
+        <div class="header-actions">
+            <div class="action-btn" id="lang-toggle" title="تغيير اللغة">
+                <i class="fa-solid fa-language"></i>
+            </div>
+            <div class="action-btn" id="theme-toggle" title="تغيير المظهر">
+                <i class="fa-solid fa-moon"></i>
+            </div>
+            <div class="action-btn" id="menu-toggle">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="sidebar" id="sidebar">
+        <i class="fa-solid fa-xmark sidebar-close" id="close-sidebar"></i>
+        <ul>
+            <li><a href="#hero" class="close-on-click">
+                <span class="ar"><i class="fa-solid fa-house"></i> الرئيسية</span>
+                <span class="en"><i class="fa-solid fa-house"></i> Home</span>
+                <span class="ur"><i class="fa-solid fa-house"></i> ہوم</span>
+            </a></li>
+            <li><a href="#about" class="close-on-click">
+                <span class="ar"><i class="fa-solid fa-star"></i> لماذا نحن</span>
+                <span class="en"><i class="fa-solid fa-star"></i> Why Us</span>
+                <span class="ur"><i class="fa-solid fa-star"></i> ہم کیوں</span>
+            </a></li>
+            <li><a href="#services" class="close-on-click">
+                <span class="ar"><i class="fa-solid fa-tools"></i> الخدمات</span>
+                <span class="en"><i class="fa-solid fa-tools"></i> Services</span>
+                <span class="ur"><i class="fa-solid fa-tools"></i> خدمات</span>
+            </a></li>
+            <li><a href="#contact" class="close-on-click">
+                <span class="ar"><i class="fa-solid fa-envelope"></i> تواصل معنا</span>
+                <span class="en"><i class="fa-solid fa-envelope"></i> Contact</span>
+                <span class="ur"><i class="fa-solid fa-envelope"></i> رابطہ کریں</span>
+            </a></li>
+        </ul>
+    </div>
+
+    <section id="hero" class="hero">
+        <h1 class="ar">خبراء التبريد والتكييف والصيانة الشاملة</h1>
+        <h1 class="en">Experts in AC & Comprehensive Maintenance</h1>
+        <h1 class="ur">ایئر کنڈیشنگ اور جامع دیکھ بھال کے ماہرین</h1>
+        
+        <p class="ar">نقدم لك أفضل خدمات تركيب وصيانة مكيفات الهواء، الثلاجات والغسالات بأعلى معايير الجودة والاحترافية. فريق هندسي متخصص لضمان راحتك طوال العام.</p>
+        <p class="en">Providing top-tier AC installation, refrigeration, and washing machine repair services. A specialized engineering team ensuring your comfort year-round.</p>
+        <p class="ur">اعلیٰ معیار کی ایئر کنڈیشنگ، فریج اور واشنگ مشین کی مرمت کی خدمات فراہم کرنا۔ آپ کے آرام کو یقینی بنانے والی ماہر ٹیم۔</p>
+
+        <a href="https://wa.me/966592662658" class="btn-primary">
+            <span class="ar">اطلب الخدمة الآن</span>
+            <span class="en">Order Service Now</span>
+            <span class="ur">ابھی سروس آرڈر کریں</span>
+        </a>
+    </section>
+
+    <section id="about">
+        <h2 class="section-title">
+            <span class="ar">لماذا نحن؟</span><span class="en">Why Choose Us?</span><span class="ur">ہمیں کیوں منتخب کریں؟</span>
+        </h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-user-gear"></i></div>
+                <h3 class="ar">فنيون ذوو خبرة</h3><h3 class="en">Experienced Technicians</h3><h3 class="ur">تجربہ کار تکنیکی ماہرین</h3>
+                <p class="ar">يضم فريقنا نخبة من الفنيين والمهندسين المعتمدين ذوي الخبرة الطويلة في التعامل مع كافة أعطال التكييف والتبريد بكفاءة عالية واحترافية لا مثيل لها.</p>
+                <p class="en">Our team includes elite certified technicians with extensive experience in handling all cooling and AC malfunctions with high efficiency.</p>
+                <p class="ur">ہماری ٹیم میں اعلیٰ تربیت یافتہ اور تجربہ کار ماہرین شامل ہیں جو ہر قسم کی خرابی کو تیزی سے دور کرتے ہیں۔</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-stopwatch"></i></div>
+                <h3 class="ar">خدمة سريعة وموثوقة</h3><h3 class="en">Fast & Reliable Service</h3><h3 class="ur">تیز اور قابل اعتماد</h3>
+                <p class="ar">ندرك أهمية الوقت بالنسبة لك، لذلك نلتزم بتقديم استجابة فورية وحلول سريعة وجذرية تضمن عودة أجهزتك للعمل بأفضل أداء في أسرع وقت ممكن.</p>
+                <p class="en">We understand the importance of your time, committing to immediate response and rapid solutions to restore your devices swiftly.</p>
+                <p class="ur">ہم آپ کے وقت کی قدر کرتے ہیں اور تیز ترین سروس کے ذریعے آپ کی مشینوں کو فوراً بحال کرتے ہیں۔</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
+                <h3 class="ar">رضا عملائنا هو غايتنا</h3><h3 class="en">Customer Satisfaction</h3><h3 class="ur">صارفین کا اطمینان</h3>
+                <p class="ar">نضع رضا العميل في قمة أولوياتنا. نقدم ضمانات حقيقية على جودة الصيانة وقطع الغيار لضمان تجربة خدمة مريحة وخالية من المتاعب.</p>
+                <p class="en">Customer satisfaction is our priority. We provide genuine guarantees on maintenance and spare parts for a hassle-free experience.</p>
+                <p class="ur">ہمارے گاہکوں کی خوشی ہماری پہلی ترجیح ہے۔ ہم بہترین سروس اور پرزوں کی گارنٹی فراہم کرتے ہیں۔</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-tags"></i></div>
+                <h3 class="ar">أسعار تنافسية</h3><h3 class="en">Competitive Prices</h3><h3 class="ur">مسابقتی قیمتیں</h3>
+                <p class="ar">نقدم خدمات استثنائية بأسعار مدروسة ومناسبة للجميع. لا رسوم خفية، بل شفافية تامة في التسعير لتحصل على أفضل قيمة مقابل ما تدفعه.</p>
+                <p class="en">We offer exceptional services at well-studied, affordable rates with zero hidden fees and absolute transparency.</p>
+                <p class="ur">ہم شفافیت کے ساتھ بہترین قیمتوں پر اعلیٰ خدمات فراہم کرتے ہیں، بغیر کسی پوشیدہ چارجز کے۔</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-toolbox"></i></div>
+                <h3 class="ar">صيانة فورية</h3><h3 class="en">Immediate Maintenance</h3><h3 class="ur">فوری دیکھ بھال</h3>
+                <p class="ar">مجهزون بأحدث الأدوات والمعدات للقيام بعمليات الصيانة الدورية والطارئة في نفس الموقع دون الحاجة لنقل الجهاز إلا في الحالات القصوى.</p>
+                <p class="en">Equipped with the latest tools to perform routine and emergency maintenance on-site without the need to move the device.</p>
+                <p class="ur">ہماری ٹیم جدید آلات سے لیس ہے تاکہ موقع پر ہی فوری اور موثر مرمت کی جا سکے۔</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="services">
+        <h2 class="section-title">
+            <span class="ar">خدماتنا المميزة</span><span class="en">Our Premium Services</span><span class="ur">ہماری نمایاں خدمات</span>
+        </h2>
+        <div class="services-grid">
+            
+            <div class="service-card">
+                <div class="service-icon-3d"><i class="fa-solid fa-snowflake"></i></div>
+                <h3 class="ar">تركيب وصيانة مكيفات هواء كاسيت</h3>
+                <h3 class="en">Cassette AC Maintenance</h3>
+                <h3 class="ur">کیسٹ اے سی کی دیکھ بھال</h3>
+                <p class="ar">خدمة احترافية لتأسيس وتركيب مكيفات الكاسيت في الأسقف المستعارة للشركات والمنازل. نقدم صيانة دورية وتنظيف الفلاتر لضمان توزيع الهواء بزاوية 360 درجة بكفاءة، مما يعزز التبريد ويقلل استهلاك الكهرباء، مع إصلاح كافة الأعطال الميكانيكية بضمان شامل.</p>
+                <p class="en">Professional installation and maintenance of cassette air conditioners for suspended ceilings. We ensure 360-degree air distribution efficiency, filter cleaning, and energy-saving repairs with full warranties.</p>
+                <p class="ur">چھت میں نصب کیسٹ ایئر کنڈیشنر کی پیشہ ورانہ تنصیب اور مرمت۔ ہم بہترین کولنگ اور بجلی کی بچت کو یقینی بناتے ہیں۔</p>
+                <a href="https://wa.me/966592662658?text=أريد طلب خدمة مكيفات كاسيت" class="btn-order">
+                    <span class="ar">اطلب الخدمة</span><span class="en">Order Service</span><span class="ur">سروس آرڈر کریں</span>
+                </a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon-3d"><i class="fa-solid fa-wind"></i></div>
+                <h3 class="ar">مكيفات تبريد دولابي (مخفي/واقف)</h3>
+                <h3 class="en">Floor Standing AC Units</h3>
+                <h3 class="ur">فلور اسٹینڈنگ اے سی</h3>
+                <p class="ar">حلول تبريد قوية للمساحات الواسعة والمساجد والقاعات. تشمل خدمتنا فحص الكمبروسر، شحن الفريون الأصلي، وتنظيف المبخرات لضمان تدفق هواء قوي ونقي. نعتمد على أحدث التقنيات لاكتشاف التسريبات وإصلاحها فوراً لإطالة العمر الافتراضي للمكيف.</p>
+                <p class="en">Powerful cooling solutions for large spaces. Our service includes compressor checks, genuine freon recharging, and evaporator cleaning for robust airflow and leak repairs.</p>
+                <p class="ur">بڑے ہالز اور مساجد کے لیے طاقتور اے سی کی سروس۔ ہم کمپریسر کی جانچ اور اصلی گیس بھرنے کی سہولت فراہم کرتے ہیں۔</p>
+                <a href="https://wa.me/966592662658?text=أريد طلب خدمة مكيفات دولابي" class="btn-order">
+                    <span class="ar">اطلب الخدمة</span><span class="en">Order Service</span><span class="ur">سروس آرڈر کریں</span>
+                </a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon-3d"><i class="fa-solid fa-building"></i></div>
+                <h3 class="ar">مكيفات مركزي باكيج</h3>
+                <h3 class="en">Central Package AC</h3>
+                <h3 class="ur">سینٹرل پیکیج اے سی</h3>
+                <p class="ar">صيانة وتأسيس أنظمة التكييف المركزي (Package Units) للمجمعات السكنية والتجارية. نقدم عقود صيانة سنوية تشمل تنظيف الدكتات (مجاري الهواء)، فحص المكونات الكهربائية، ومعايرة الثرموستات لضمان أداء مستقر وتبريد فائق طوال فصل الصيف الحار.</p>
+                <p class="en">Installation and maintenance of Central Package Units for commercial and residential complexes. We offer annual contracts, duct cleaning, and thermostat calibration.</p>
+                <p class="ur">کمرشل اور رہائشی عمارتوں کے لیے سینٹرل اے سی کی تنصیب اور مرمت۔ ہم ڈکٹ کی صفائی اور سالانہ معاہدے پیش کرتے ہیں۔</p>
+                <a href="https://wa.me/966592662658?text=أريد طلب خدمة تكييف مركزي باكيج" class="btn-order">
+                    <span class="ar">اطلب الخدمة</span><span class="en">Order Service</span><span class="ur">سروس آرڈر کریں</span>
+                </a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon-3d"><i class="fa-solid fa-fan"></i></div>
+                <h3 class="ar">تركيب وصيانة تكييف مخفي</h3>
+                <h3 class="en">Concealed AC Systems</h3>
+                <h3 class="ur">پوشیدہ اے سی سسٹمز</h3>
+                <p class="ar">التكييف المخفي (Concealed) يجمع بين الأناقة والهدوء. نوفر خبراء في تأسيس وتمديد النحاس ومجاري الهواء بدقة عالية لا تشوه الديكور. صيانة دورية للوحدات الداخلية والخارجية لمعالجة ضعف التبريد والتخلص من الروائح الكريهة وانسداد مجرى التصريف.</p>
+                <p class="en">Combining elegance and silence, our concealed AC services include precision ducting and copper piping installation, addressing poor cooling and drainage blockages.</p>
+                <p class="ur">خوبصورتی اور خاموشی کا امتزاج، پوشیدہ اے سی کی تنصیب اور مرمت تاکہ آپ کا انٹیریئر خراب نہ ہو۔</p>
+                <a href="https://wa.me/966592662658?text=أريد طلب خدمة تكييف مخفي" class="btn-order">
+                    <span class="ar">اطلب الخدمة</span><span class="en">Order Service</span><span class="ur">سروس آرڈر کریں</span>
+                </a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon-3d"><i class="fa-solid fa-box-open"></i></div>
+                <h3 class="ar">تركيب وصيانة الثلاجات</h3>
+                <h3 class="en">Refrigerators Maintenance</h3>
+                <h3 class="ur">فریج کی دیکھ بھال</h3>
+                <p class="ar">إصلاح جميع أعطال الثلاجات المنزلية والتجارية (غرف التبريد والفريزرات). تغيير الكباسات (الكمبروسر)، شحن الفريون، معالجة مشاكل تسريب المياه، وإصلاح اللوحات الإلكترونية لضمان حفظ الأطعمة في درجة حرارة مثالية وتجنب تلفها بأسرع وقت.</p>
+                <p class="en">Repairing all residential and commercial refrigerators. Services include compressor replacement, freon recharging, and fixing electronic boards for optimal preservation.</p>
+                <p class="ur">گھریلو اور تجارتی فریج کی مرمت۔ کمپریسر کی تبدیلی اور گیس چارجنگ تاکہ آپ کا کھانا محفوظ رہے۔</p>
+                <a href="https://wa.me/966592662658?text=أريد طلب صيانة ثلاجة" class="btn-order">
+                    <span class="ar">اطلب الخدمة</span><span class="en">Order Service</span><span class="ur">سروس آرڈر کریں</span>
+                </a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon-3d"><i class="fa-solid fa-shirt"></i></div>
+                <h3 class="ar">صيانة وإصلاح الغسالات</h3>
+                <h3 class="en">Washing Machines Repair</h3>
+                <h3 class="ur">واشنگ مشین کی مرمت</h3>
+                <p class="ar">صيانة شاملة لجميع أنواع الغسالات (الأوتوماتيك، العادية، والنشافات) بجميع الماركات. نقوم بحل مشاكل عدم سحب أو طرد الماء، توقف الحلة عن الدوران، إصلاح كروت التشغيل، وتغيير المساعدين والرمانات بأخرى أصلية لضمان عمل الغسالة بكفاءة وهدوء.</p>
+                <p class="en">Comprehensive repair for all types of washing machines. Resolving drainage issues, drum spinning faults, and replacing parts with original spares for quiet efficiency.</p>
+                <p class="ur">ہر قسم کی واشنگ مشین کی مکمل مرمت۔ پانی کے اخراج کے مسائل اور ڈرم کی خرابی کو اصل پرزوں کے ساتھ ٹھیک کریں۔</p>
+                <a href="https://wa.me/966592662658?text=أريد طلب صيانة غسالة" class="btn-order">
+                    <span class="ar">اطلب الخدمة</span><span class="en">Order Service</span><span class="ur">سروس آرڈر کریں</span>
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2 class="section-title">
+            <span class="ar">تواصل معنا</span><span class="en">Contact Us</span><span class="ur">رابطہ کریں</span>
+        </h2>
+        <div class="contact-container">
+            <i class="fa-solid fa-location-dot map-pin"></i>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14481.869426525156!2d46.8123143!3d24.8478827!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2eff75ce68dad9%3A0xe62dce1671c9d406!2z2YTZhNiq2KjYsduM2K8g2YjYp9mE2KraqduM24zZgQ!5e0!3m2!1sar!2ssa!4v1775823688899!5m2!1sar!2ssa" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            
+            <div class="contact-info">
+                <h3 class="ar" style="color:var(--primary-color); margin-bottom:10px;">معلومات الاتصال</h3>
+                <h3 class="en" style="color:var(--primary-color); margin-bottom:10px;">Contact Info</h3>
+                <h3 class="ur" style="color:var(--primary-color); margin-bottom:10px;">رابطہ کی معلومات</h3>
+                
+                <p><i class="fa-brands fa-whatsapp"></i> واتساب: <a href="https://wa.me/966592662658" dir="ltr" style="font-weight:bold;">0592662658</a></p>
+                <p><i class="fa-solid fa-phone"></i> اتصال: <a href="tel:0592662658" dir="ltr" style="font-weight:bold;">0592662658</a></p>
+            </div>
+        </div>
+    </section>
+
+    <div class="floating-actions">
+        <a href="https://wa.me/966592662658" class="float-btn float-wa" target="_blank" title="واتساب">
+            <i class="fa-brands fa-whatsapp"></i>
+        </a>
+        <a href="tel:0592662658" class="float-btn float-call" title="اتصال">
+            <i class="fa-solid fa-phone"></i>
+        </a>
+    </div>
+
+    <div class="bottom-nav">
+        <a href="#hero" class="active">
+            <i class="fa-solid fa-house"></i>
+            <span class="ar">الرئيسية</span><span class="en">Home</span><span class="ur">ہوم</span>
+        </a>
+        <a href="#about">
+            <i class="fa-solid fa-star"></i>
+            <span class="ar">المزايا</span><span class="en">Features</span><span class="ur">خصوصیات</span>
+        </a>
+        <a href="#services">
+            <i class="fa-solid fa-tools"></i>
+            <span class="ar">الخدمات</span><span class="en">Services</span><span class="ur">خدمات</span>
+        </a>
+        <a href="#contact">
+            <i class="fa-solid fa-phone"></i>
+            <span class="ar">تواصل</span><span class="en">Contact</span><span class="ur">رابطہ</span>
+        </a>
+    </div>
+
+    <footer>
+        <p>
+            <span class="ar">جميع الحقوق محفوظة © 2026 - للتبريد والتكييف</span>
+            <span class="en">All Rights Reserved © 2026 - AC & Cooling</span>
+            <span class="ur">جملہ حقوق محفوظ ہیں © 2026 - کولنگ سروسز</span>
+        </p>
+        
+        <a href="https://wa.me/966547194788" class="designer-badge" style="text-decoration: none;"> <span>👑 تم التصميم بواسطة المهندس إسلام الشيخ 👑</span>
+        </a>
+    </footer>
+
+    <script>
+        // إخفاء شاشة التحميل
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loader').style.display = 'none';
+                }, 500);
+            }, 1500); // تأخير بسيط لعرض الانميشن
+        });
+
+        // نظام تبديل اللغة التلقائي واليدوي
+        const htmlTag = document.documentElement;
+        const langToggleBtn = document.getElementById('lang-toggle');
+        const langs = ['ar', 'en', 'ur'];
+        
+        // اكتشاف اللغة الافتراضية
+        let userLang = navigator.language || navigator.userLanguage;
+        let currentLang = 'en';
+        if (userLang.startsWith('ar')) currentLang = 'ar';
+        else if (userLang.startsWith('ur')) currentLang = 'ur';
+        
+        htmlTag.setAttribute('lang', currentLang);
+
+        // التبديل اليدوي للغة
+        langToggleBtn.addEventListener('click', () => {
+            let currentIndex = langs.indexOf(htmlTag.getAttribute('lang'));
+            let nextIndex = (currentIndex + 1) % langs.length;
+            htmlTag.setAttribute('lang', langs[nextIndex]);
+        });
+
+        // نظام الوضع الليلي/النهاري التلقائي واليدوي
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = themeToggleBtn.querySelector('i');
+        
+        // اكتشاف وضع الجهاز
+        const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+        if (prefersDarkScheme.matches) {
+            htmlTag.setAttribute('data-theme', 'dark');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        // التبديل اليدوي للمظهر
+        themeToggleBtn.addEventListener('click', () => {
+            if (htmlTag.getAttribute('data-theme') === 'dark') {
+                htmlTag.setAttribute('data-theme', 'light');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            } else {
+                htmlTag.setAttribute('data-theme', 'dark');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            }
+        });
+
+        // التحكم بالقائمة الجانبية
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const closeSidebar = document.getElementById('close-sidebar');
+        const overlay = document.getElementById('overlay');
+        const closeLinks = document.querySelectorAll('.close-on-click');
+
+        function toggleMenu() {
+            sidebar.classList.toggle('active');
+            overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
+        }
+
+        menuToggle.addEventListener('click', toggleMenu);
+        closeSidebar.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
+        closeLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+        // تحديث زر التنقل السفلي النشط عند التمرير
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.bottom-nav a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
